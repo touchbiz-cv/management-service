@@ -21,7 +21,7 @@ management:
 
 spring:
   application:
-    name: daip-common-tenant-service1
+    name: management-service
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
@@ -54,11 +54,11 @@ spring:
     job-store-type: jdbc
     initialize-schema: embedded
     #定时任务启动开关，true-开  false-关
-    auto-startup: true
+    auto-startup: false
     #延迟1秒启动定时任务
     startup-delay: 1s
     #启动时更新己存在的Job
-    overwrite-existing-jobs: true
+    overwrite-existing-jobs: false
     properties:
       org:
         quartz:
