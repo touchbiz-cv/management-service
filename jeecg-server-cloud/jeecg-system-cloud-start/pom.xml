@@ -37,6 +37,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+
         <!-- feign 熔断限流、分布式锁、xxljob示例 
         <dependency>
             <groupId>org.jeecgframework.boot</groupId>

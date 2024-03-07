@@ -50,7 +50,7 @@ public class SysCommentController extends JeecgController<SysComment, ISysCommen
     /**
      * 在线预览文件地址
      */
-    @Value("${jeecg.file-view-domain}/onlinePreview")
+    @Value("${jeecg.file-view-domain:127.0.0.1:8012}/onlinePreview")
     private String onlinePreviewDomain;
 
     /**

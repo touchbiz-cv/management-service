@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    bootstrap:
+      enabled: true
+    nacos:
+      discovery:
+        server-addr: nacos.ai-prime.tech:8848
+        watch:
+          enabled: true
+      config:
+        server-addr: nacos.ai-prime.tech:8848
+        type: yaml
+        auto-refresh: true
+        file-extension: yaml
+        enabled: true
+#        shared-configs[0]:
+#          data-id: jeecg.yaml
+#          group: DEFAULT_GROUP
+#          refresh: true  # 是否动态刷新，默认为false

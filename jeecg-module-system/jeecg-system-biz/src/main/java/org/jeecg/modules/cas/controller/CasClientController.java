@@ -48,7 +48,7 @@ public class CasClientController {
 	@Autowired
     private RedisUtil redisUtil;
 	
-	@Value("${cas.prefixUrl}")
+	@Value("${cas.prefixUrl:cv}")
     private String prefixUrl;
 	
 	
