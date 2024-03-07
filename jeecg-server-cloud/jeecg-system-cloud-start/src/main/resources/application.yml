@@ -81,7 +81,7 @@ spring:
     open-in-view: false
 
 #jeecg专用配置
-minida
+minidao:
   base-package: org.jeecg.modules.jmreport.*,org.jeecg.modules.drag.*
 jeecg:
   # 平台上线安全配置
