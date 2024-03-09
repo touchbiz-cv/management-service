@@ -1,15 +1,10 @@
-FROM anapsix/alpine-java:8_server-jre_unlimited
-
-MAINTAINER jeecgos@163.com
-
+FROM apache/beam_java17_sdk:latest
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-RUN mkdir -p /jeecg-system-cloud
 
 WORKDIR /jeecg-system-cloud
 
-EXPOSE 7001
+# 移动文件到目标文件夹
+ARG APP_LOCATION=./target/management-service.jar
 
-ADD ./target/jeecg-system-cloud-start-3.6.2.jar ./
-
-CMD sleep 1;java -Dfile.encoding=utf-8 -Djava.security.egd=file:/dev/./urandom -jar jeecg-system-cloud-start-3.6.2.jar
+ADD ${APP_LOCATION} /
