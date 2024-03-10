@@ -1,6 +1,7 @@
 package org.jeecg.modules.alarmrecord.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -27,6 +28,7 @@ import java.nio.file.Paths;
 public class ImagesController {
     private final Path imageStoragePath = Paths.get(""); // 修改为你的图片存储路径
 
+    @ApiOperation(value = "图片获取", notes = "图片获取")
     @GetMapping(value = "/getImage", produces = MediaType.IMAGE_JPEG_VALUE)
 //    @PostMapping(value = "/getImage", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> getImage(@RequestParam String filename) {

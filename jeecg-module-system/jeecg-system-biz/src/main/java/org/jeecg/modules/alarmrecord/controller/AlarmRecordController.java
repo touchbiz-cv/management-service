@@ -106,7 +106,7 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
     @AutoLog(value = "告警标记处理")
     @ApiOperation(value = "告警标记处理", notes = "告警标记处理")
     @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:edit")
-    @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequestMapping(value = "/editStatus", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> editStatus(@RequestBody AlarmRecordStatusDto dto) {
         AlarmRecord alarmRecord = new AlarmRecord();
         alarmRecord.setId(dto.getId());
