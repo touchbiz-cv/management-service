@@ -15,6 +15,7 @@ import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.alarmrecord.converter.AlarmRecordConverter;
 import org.jeecg.modules.alarmrecord.dto.AlarmRecordDto;
+import org.jeecg.modules.alarmrecord.dto.AlarmRecordStatusDto;
 import org.jeecg.modules.alarmrecord.entity.AlarmRecord;
 import org.jeecg.modules.alarmrecord.entity.Algorithm;
 import org.jeecg.modules.alarmrecord.entity.Camera;
@@ -27,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,8 +61,8 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
      * @param req
      * @return
      */
-    //@AutoLog(value = "t_alarm_record-分页列表查询")
-    @ApiOperation(value = "t_alarm_record-分页列表查询", notes = "t_alarm_record-分页列表查询")
+    //@AutoLog(value = "告警分页列表查询")
+    @ApiOperation(value = "告警分页列表查询", notes = "告警分页列表查询")
     @GetMapping(value = "/list")
     public Result<IPage<?>> queryPageList(AlarmRecord alarmRecord,
                                           @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -98,64 +98,23 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
     }
 
     /**
-     * 添加
-     *
-     * @param alarmRecord
-     * @return
-     */
-    @AutoLog(value = "t_alarm_record-添加")
-    @ApiOperation(value = "t_alarm_record-添加", notes = "t_alarm_record-添加")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:add")
-    @PostMapping(value = "/add")
-    public Result<String> add(@RequestBody AlarmRecord alarmRecord) {
-        alarmRecordService.save(alarmRecord);
-        return Result.OK("添加成功！");
-    }
-
-    /**
      * 编辑
      *
-     * @param alarmRecord
+     * @param dto
      * @return
      */
-    @AutoLog(value = "t_alarm_record-编辑")
-    @ApiOperation(value = "t_alarm_record-编辑", notes = "t_alarm_record-编辑")
+    @AutoLog(value = "告警标记处理")
+    @ApiOperation(value = "告警标记处理", notes = "告警标记处理")
     @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:edit")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
-    public Result<String> edit(@RequestBody AlarmRecord alarmRecord) {
+    public Result<String> editStatus(@RequestBody AlarmRecordStatusDto dto) {
+        AlarmRecord alarmRecord = new AlarmRecord();
+        alarmRecord.setId(dto.getId());
+        alarmRecord.setAlarmState(dto.getAlarmState());
         alarmRecordService.updateById(alarmRecord);
-        return Result.OK("编辑成功!");
+        return Result.OK("告警标记处理成功!");
     }
 
-    /**
-     * 通过id删除
-     *
-     * @param id
-     * @return
-     */
-    @AutoLog(value = "t_alarm_record-通过id删除")
-    @ApiOperation(value = "t_alarm_record-通过id删除", notes = "t_alarm_record-通过id删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:delete")
-    @DeleteMapping(value = "/delete")
-    public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
-        alarmRecordService.removeById(id);
-        return Result.OK("删除成功!");
-    }
-
-    /**
-     * 批量删除
-     *
-     * @param ids
-     * @return
-     */
-    @AutoLog(value = "t_alarm_record-批量删除")
-    @ApiOperation(value = "t_alarm_record-批量删除", notes = "t_alarm_record-批量删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:deleteBatch")
-    @DeleteMapping(value = "/deleteBatch")
-    public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
-        this.alarmRecordService.removeByIds(Arrays.asList(ids.split(",")));
-        return Result.OK("批量删除成功!");
-    }
 
     /**
      * 通过id查询
@@ -164,14 +123,24 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
      * @return
      */
     //@AutoLog(value = "t_alarm_record-通过id查询")
-    @ApiOperation(value = "t_alarm_record-通过id查询", notes = "t_alarm_record-通过id查询")
+    @ApiOperation(value = "通过id查询告警详情", notes = "通过id查询告警详情")
     @GetMapping(value = "/queryById")
-    public Result<AlarmRecord> queryById(@RequestParam(name = "id", required = true) String id) {
+    public Result<?> queryById(@RequestParam(name = "id", required = true) String id) {
         AlarmRecord alarmRecord = alarmRecordService.getById(id);
         if (alarmRecord == null) {
             return Result.error("未找到对应数据");
         }
-        return Result.OK(alarmRecord);
+        try {
+            AlarmRecordDto alarmRecordDto = AlarmRecordConverter.INSTANCE.transformOut(alarmRecord);
+            alarmRecordDto.setSceneName("");
+            Camera camera = cameraService.getById(alarmRecord.getCameraId());
+            alarmRecordDto.setCameraName(ObjectUtils.isEmpty(camera) ? "" : camera.getCameraName());
+            Algorithm algorithm = algorithmService.getById(alarmRecord.getAlgoId());
+            alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
+            return Result.OK(alarmRecordDto);
+        } catch (Exception e) {
+            throw new JeecgBootException(e);
+        }
     }
 
     /**
