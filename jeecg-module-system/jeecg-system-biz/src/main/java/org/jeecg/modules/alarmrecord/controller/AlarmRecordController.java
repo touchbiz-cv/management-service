@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "报警列表")
 @RestController
-@RequestMapping("/alarmRecord")
+@RequestMapping("/api/alarmRecord")
 @Slf4j
 public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRecordService> {
 
