@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 @Api(tags = "相机")
 @RestController
-@RequestMapping("/camera")
+@RequestMapping("/api/camera")
 @Slf4j
 public class CameraController extends JeecgController<Camera, ICameraService> {
     @Autowired

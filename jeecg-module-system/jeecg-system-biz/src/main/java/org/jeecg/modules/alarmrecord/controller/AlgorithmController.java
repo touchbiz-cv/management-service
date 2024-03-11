@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 @Api(tags = "算法")
 @RestController
-@RequestMapping("/algorithm")
+@RequestMapping("/api/algorithm")
 @Slf4j
 public class AlgorithmController extends JeecgController<Algorithm, IAlgorithmService> {
     @Autowired

@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 @Api(tags = "相机算法")
 @RestController
-@RequestMapping("/cameraAlgoAssign")
+@RequestMapping("/api/cameraAlgoAssign")
 @Slf4j
 public class CameraAlgoAssignController extends JeecgController<CameraAlgoAssign, ICameraAlgoAssignService> {
     @Autowired

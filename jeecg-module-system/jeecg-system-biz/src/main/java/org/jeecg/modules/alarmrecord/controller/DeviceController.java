@@ -29,7 +29,7 @@ import java.util.Arrays;
  */
 @Api(tags = "设备")
 @RestController
-@RequestMapping("/device")
+@RequestMapping("/api/device")
 @Slf4j
 public class DeviceController extends JeecgController<Device, IDeviceService> {
     @Autowired
