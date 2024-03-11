@@ -1,8 +1,8 @@
 #!/bin/sh
-echo 'Password: 123456qwerty'
+echo '登陆阿里云镜像, 密码: 123456qwerty'
 docker login --username=mrjiangyan@aliyun.com registry.cn-hangzhou.aliyuncs.com
 version=$1
-serviceName=cv-management-service-$2
+serviceName=cv-management-service
 targetTagName=registry.cn-hangzhou.aliyuncs.com/touchbiz/$serviceName:$version
 
 echo "begin to build image"
