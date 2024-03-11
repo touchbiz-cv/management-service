@@ -23,7 +23,6 @@ import org.jeecg.modules.alarmrecord.service.IAlarmRecordService;
 import org.jeecg.modules.alarmrecord.service.IAlgorithmService;
 import org.jeecg.modules.alarmrecord.service.ICameraService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,13 +42,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/alarmRecord")
 @Slf4j
 public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRecordService> {
-
-    @Value("${file.path:}")
-    private String filePath;
-
-    @Value("${file.view-domain:}")
-    private String fileViewDomain;
-
 
     @Autowired
     private IAlarmRecordService alarmRecordService;
@@ -91,11 +83,12 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
                         alarmRecordDto.setCameraName(ObjectUtils.isEmpty(camera) ? "" : camera.getCameraName());
                         Algorithm algorithm = algorithmService.getById(m.getAlgoId());
                         alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
+                        String origin = req.getHeader("Origin");
                         if (ObjectUtils.isNotEmpty(m.getAlarmImageDraw())) {
-                            alarmRecordDto.setAlarmImageDraw(fileViewDomain + (m.getAlarmImageDraw().replace(filePath, "")));
+                            alarmRecordDto.setAlarmImageDraw(origin + "/api/images/getImage?filename=" + m.getAlarmImageDraw());
                         }
                         if (ObjectUtils.isNotEmpty(m.getOriginalImage())) {
-                            alarmRecordDto.setOriginalImage(fileViewDomain + (m.getOriginalImage().replace(filePath, "")));
+                            alarmRecordDto.setOriginalImage(origin + "/api/images/getImage?filename=" + m.getOriginalImage());
                         }
                         return alarmRecordDto;
                     } catch (Exception e) {
@@ -139,7 +132,7 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
     //@AutoLog(value = "t_alarm_record-通过id查询")
     @ApiOperation(value = "通过id查询告警详情", notes = "通过id查询告警详情")
     @GetMapping(value = "/queryById")
-    public Result<?> queryById(@RequestParam(name = "id", required = true) String id) {
+    public Result<?> queryById(@RequestParam(name = "id", required = true) String id, HttpServletRequest req) {
         AlarmRecord alarmRecord = alarmRecordService.getById(id);
         if (alarmRecord == null) {
             return Result.error("未找到对应数据");
@@ -151,11 +144,12 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
             alarmRecordDto.setCameraName(ObjectUtils.isEmpty(camera) ? "" : camera.getCameraName());
             Algorithm algorithm = algorithmService.getById(alarmRecord.getAlgoId());
             alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
+            String origin = req.getHeader("Origin");
             if (ObjectUtils.isNotEmpty(alarmRecord.getAlarmImageDraw())) {
-                alarmRecordDto.setAlarmImageDraw(fileViewDomain + (alarmRecord.getAlarmImageDraw().replace(filePath, "")));
+                alarmRecordDto.setAlarmImageDraw(origin + "/api/images/api/images/api/images/api/images/api/images/getImage?filename=" + alarmRecord.getAlarmImageDraw());
             }
             if (ObjectUtils.isNotEmpty(alarmRecord.getOriginalImage())) {
-                alarmRecordDto.setOriginalImage(fileViewDomain + (alarmRecord.getOriginalImage().replace(filePath, "")));
+                alarmRecordDto.setOriginalImage(origin + "/api/images/getImage?filename=" + alarmRecord.getOriginalImage());
             }
             return Result.OK(alarmRecordDto);
         } catch (Exception e) {
