@@ -7,7 +7,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
@@ -46,6 +45,10 @@ import java.util.stream.Collectors;
 public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRecordService> {
 
     @Autowired
+    private HttpServletRequest request;
+
+
+    @Autowired
     private IAlarmRecordService alarmRecordService;
 
     @Autowired
@@ -77,14 +80,8 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
         if (ObjectUtils.isEmpty(pageList.getRecords())) {
             return Result.OK(pageList);
         }
-        StringBuffer requestURL = req.getRequestURL();
-        String httpStr;
-        if (ObjectUtils.isNotEmpty(requestURL) && StringUtils.startsWith(requestURL, "https")) {
-            httpStr = "https://";
-        } else {
-            httpStr = "http://";
-        }
-        String hostStr = req.getHeader("Host");
+
+        String imageUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/api/images/getImage?filename=";
         List<AlarmRecordDto> responseList = pageList.getRecords().stream().map(m -> {
                     try {
                         AlarmRecordDto alarmRecordDto = AlarmRecordConverter.INSTANCE.transformOut(m);
@@ -94,10 +91,10 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
                         Algorithm algorithm = algorithmService.getById(m.getAlgoId());
                         alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
                         if (ObjectUtils.isNotEmpty(m.getAlarmImageDraw())) {
-                            alarmRecordDto.setAlarmImageDraw(httpStr + hostStr + "/api/images/getImage?filename=" + URLEncoder.encode(m.getAlarmImageDraw()));
+                            alarmRecordDto.setAlarmImageDraw(imageUrl + URLEncoder.encode(m.getAlarmImageDraw()));
                         }
                         if (ObjectUtils.isNotEmpty(m.getOriginalImage())) {
-                            alarmRecordDto.setOriginalImage(httpStr + hostStr + "/api/images/getImage?filename=" + URLEncoder.encode(m.getOriginalImage()));
+                            alarmRecordDto.setOriginalImage(imageUrl + URLEncoder.encode(m.getOriginalImage()));
                         }
                         return alarmRecordDto;
                     } catch (Exception e) {
@@ -147,12 +144,7 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
             return Result.error("未找到对应数据");
         }
         try {
-            StringBuffer requestURL = req.getRequestURL();
-            String httpStr = "http://";
-            if (ObjectUtils.isNotEmpty(requestURL) && StringUtils.startsWith(requestURL, "https")) {
-                httpStr = "https://";
-            }
-            String hostStr = req.getHeader("Host");
+            String imageUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/api/images/getImage?filename=";
             AlarmRecordDto alarmRecordDto = AlarmRecordConverter.INSTANCE.transformOut(alarmRecord);
             alarmRecordDto.setSceneName("");
             Camera camera = cameraService.getById(alarmRecord.getCameraId());
@@ -160,10 +152,10 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
             Algorithm algorithm = algorithmService.getById(alarmRecord.getAlgoId());
             alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
             if (ObjectUtils.isNotEmpty(alarmRecord.getAlarmImageDraw())) {
-                alarmRecordDto.setAlarmImageDraw(httpStr + hostStr + "/api/images/getImage?filename=" + URLEncoder.encode(alarmRecord.getAlarmImageDraw()));
+                alarmRecordDto.setAlarmImageDraw(imageUrl + URLEncoder.encode(alarmRecord.getAlarmImageDraw()));
             }
             if (ObjectUtils.isNotEmpty(alarmRecord.getOriginalImage())) {
-                alarmRecordDto.setOriginalImage(httpStr + hostStr + "/api/images/getImage?filename=" + URLEncoder.encode(alarmRecord.getOriginalImage()));
+                alarmRecordDto.setOriginalImage(imageUrl + URLEncoder.encode(alarmRecord.getOriginalImage()));
             }
             return Result.OK(alarmRecordDto);
         } catch (Exception e) {
