@@ -146,7 +146,7 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
             alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
             String origin = req.getHeader("Origin");
             if (ObjectUtils.isNotEmpty(alarmRecord.getAlarmImageDraw())) {
-                alarmRecordDto.setAlarmImageDraw(origin + "/api/images/api/images/api/images/api/images/api/images/getImage?filename=" + alarmRecord.getAlarmImageDraw());
+                alarmRecordDto.setAlarmImageDraw(origin + "/api/images/getImage?filename=" + alarmRecord.getAlarmImageDraw());
             }
             if (ObjectUtils.isNotEmpty(alarmRecord.getOriginalImage())) {
                 alarmRecordDto.setOriginalImage(origin + "/api/images/getImage?filename=" + alarmRecord.getOriginalImage());
