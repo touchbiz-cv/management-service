@@ -23,6 +23,7 @@ import org.jeecg.modules.alarmrecord.service.IAlarmRecordService;
 import org.jeecg.modules.alarmrecord.service.IAlgorithmService;
 import org.jeecg.modules.alarmrecord.service.ICameraService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,6 +43,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/alarmRecord")
 @Slf4j
 public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRecordService> {
+
+    @Value("${file.path:}")
+    private String filePath;
+
+    @Value("${file.view-domain:}")
+    private String fileViewDomain;
+
+
     @Autowired
     private IAlarmRecordService alarmRecordService;
 
@@ -50,7 +59,6 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
 
     @Autowired
     private IAlgorithmService algorithmService;
-
 
     /**
      * 分页列表查询
@@ -83,6 +91,12 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
                         alarmRecordDto.setCameraName(ObjectUtils.isEmpty(camera) ? "" : camera.getCameraName());
                         Algorithm algorithm = algorithmService.getById(m.getAlgoId());
                         alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
+                        if (ObjectUtils.isNotEmpty(m.getAlarmImageDraw())) {
+                            alarmRecordDto.setAlarmImageDraw(fileViewDomain + (m.getAlarmImageDraw().replace(filePath, "")));
+                        }
+                        if (ObjectUtils.isNotEmpty(m.getOriginalImage())) {
+                            alarmRecordDto.setOriginalImage(fileViewDomain + (m.getOriginalImage().replace(filePath, "")));
+                        }
                         return alarmRecordDto;
                     } catch (Exception e) {
                         throw new JeecgBootException(e);
@@ -137,6 +151,12 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
             alarmRecordDto.setCameraName(ObjectUtils.isEmpty(camera) ? "" : camera.getCameraName());
             Algorithm algorithm = algorithmService.getById(alarmRecord.getAlgoId());
             alarmRecordDto.setAlgoName(ObjectUtils.isEmpty(algorithm) ? "" : algorithm.getName());
+            if (ObjectUtils.isNotEmpty(alarmRecord.getAlarmImageDraw())) {
+                alarmRecordDto.setAlarmImageDraw(fileViewDomain + (alarmRecord.getAlarmImageDraw().replace(filePath, "")));
+            }
+            if (ObjectUtils.isNotEmpty(alarmRecord.getOriginalImage())) {
+                alarmRecordDto.setOriginalImage(fileViewDomain + (alarmRecord.getOriginalImage().replace(filePath, "")));
+            }
             return Result.OK(alarmRecordDto);
         } catch (Exception e) {
             throw new JeecgBootException(e);
