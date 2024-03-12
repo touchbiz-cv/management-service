@@ -111,14 +111,13 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
     }
 
     /**
-     * 编辑
+     * 告警标记处理
      *
      * @param dto
      * @return
      */
     @AutoLog(value = "告警标记处理")
     @ApiOperation(value = "告警标记处理", notes = "告警标记处理")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:edit")
     @RequestMapping(value = "/editStatus", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> editStatus(@RequestBody AlarmRecordStatusDto dto) {
         AlarmRecord alarmRecord = new AlarmRecord();
@@ -164,28 +163,42 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
     }
 
     /**
-     * 导出excel
+     * 通过id删除
      *
-     * @param request
-     * @param alarmRecord
-     */
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:exportXls")
-    @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, AlarmRecord alarmRecord) {
-        return super.exportXls(request, alarmRecord, AlarmRecord.class, "t_alarm_record");
-    }
-
-    /**
-     * 通过excel导入数据
-     *
-     * @param request
-     * @param response
+     * @param id
      * @return
      */
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:importExcel")
-    @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
-    public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, AlarmRecord.class);
+    @AutoLog(value = "告警-通过id删除")
+    @ApiOperation(value = "告警-通过id删除", notes = "告警-通过id删除")
+    @DeleteMapping(value = "/delete")
+    public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
+        alarmRecordService.removeById(id);
+        return Result.OK("删除成功!");
     }
+
+//    /**
+//     * 导出excel
+//     *
+//     * @param request
+//     * @param alarmRecord
+//     */
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:exportXls")
+//    @RequestMapping(value = "/exportXls")
+//    public ModelAndView exportXls(HttpServletRequest request, AlarmRecord alarmRecord) {
+//        return super.exportXls(request, alarmRecord, AlarmRecord.class, "t_alarm_record");
+//    }
+//
+//    /**
+//     * 通过excel导入数据
+//     *
+//     * @param request
+//     * @param response
+//     * @return
+//     */
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_alarm_record:importExcel")
+//    @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
+//    public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
+//        return super.importExcel(request, response, AlarmRecord.class);
+//    }
 
 }
