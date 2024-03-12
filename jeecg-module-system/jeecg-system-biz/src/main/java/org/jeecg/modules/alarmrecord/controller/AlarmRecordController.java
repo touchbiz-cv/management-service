@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -173,6 +174,8 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         alarmRecordService.removeById(id);
+        byte[] aa = new byte[1024];
+        new String(aa, Charset.defaultCharset());
         return Result.OK("删除成功!");
     }
 
