@@ -81,7 +81,7 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
             return Result.OK(pageList);
         }
 
-        String imageUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/api/images/getImage?filename=";
+        String imageUrl = request.getScheme() + "://" + request.getHeader("Host") + "/api/images/getImage?filename=";
         List<AlarmRecordDto> responseList = pageList.getRecords().stream().map(m -> {
                     try {
                         AlarmRecordDto alarmRecordDto = AlarmRecordConverter.INSTANCE.transformOut(m);
@@ -144,7 +144,7 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
             return Result.error("未找到对应数据");
         }
         try {
-            String imageUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/api/images/getImage?filename=";
+            String imageUrl = request.getScheme() + "://" + request.getHeader("Host") + "/api/images/getImage?filename=";
             AlarmRecordDto alarmRecordDto = AlarmRecordConverter.INSTANCE.transformOut(alarmRecord);
             alarmRecordDto.setSceneName("");
             Camera camera = cameraService.getById(alarmRecord.getCameraId());
