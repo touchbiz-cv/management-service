@@ -65,7 +65,7 @@ public class AlgorithmController extends JeecgController<Algorithm, IAlgorithmSe
      */
     @AutoLog(value = "t_algorithm-添加")
     @ApiOperation(value = "t_algorithm-添加", notes = "t_algorithm-添加")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:add")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:add")
     @PostMapping(value = "/add")
     public Result<String> add(@RequestBody Algorithm algorithm) {
         algorithmService.save(algorithm);
@@ -80,7 +80,7 @@ public class AlgorithmController extends JeecgController<Algorithm, IAlgorithmSe
      */
     @AutoLog(value = "t_algorithm-编辑")
     @ApiOperation(value = "t_algorithm-编辑", notes = "t_algorithm-编辑")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:edit")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:edit")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> edit(@RequestBody Algorithm algorithm) {
         algorithmService.updateById(algorithm);
@@ -95,7 +95,7 @@ public class AlgorithmController extends JeecgController<Algorithm, IAlgorithmSe
      */
     @AutoLog(value = "t_algorithm-通过id删除")
     @ApiOperation(value = "t_algorithm-通过id删除", notes = "t_algorithm-通过id删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:delete")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:delete")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         algorithmService.removeById(id);
@@ -110,7 +110,7 @@ public class AlgorithmController extends JeecgController<Algorithm, IAlgorithmSe
      */
     @AutoLog(value = "t_algorithm-批量删除")
     @ApiOperation(value = "t_algorithm-批量删除", notes = "t_algorithm-批量删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:deleteBatch")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_algorithm:deleteBatch")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.algorithmService.removeByIds(Arrays.asList(ids.split(",")));

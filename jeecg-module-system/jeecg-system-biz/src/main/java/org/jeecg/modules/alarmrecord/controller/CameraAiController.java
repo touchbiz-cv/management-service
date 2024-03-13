@@ -65,7 +65,7 @@ public class CameraAiController extends JeecgController<CameraAi, ICameraAiServi
      */
     @AutoLog(value = "t_camera_ai-添加")
     @ApiOperation(value = "t_camera_ai-添加", notes = "t_camera_ai-添加")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:add")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:add")
     @PostMapping(value = "/add")
     public Result<String> add(@RequestBody CameraAi cameraAi) {
         cameraAiService.save(cameraAi);
@@ -80,7 +80,7 @@ public class CameraAiController extends JeecgController<CameraAi, ICameraAiServi
      */
     @AutoLog(value = "t_camera_ai-编辑")
     @ApiOperation(value = "t_camera_ai-编辑", notes = "t_camera_ai-编辑")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:edit")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:edit")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> edit(@RequestBody CameraAi cameraAi) {
         cameraAiService.updateById(cameraAi);
@@ -95,7 +95,7 @@ public class CameraAiController extends JeecgController<CameraAi, ICameraAiServi
      */
     @AutoLog(value = "t_camera_ai-通过id删除")
     @ApiOperation(value = "t_camera_ai-通过id删除", notes = "t_camera_ai-通过id删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:delete")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:delete")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         cameraAiService.removeById(id);
@@ -110,7 +110,7 @@ public class CameraAiController extends JeecgController<CameraAi, ICameraAiServi
      */
     @AutoLog(value = "t_camera_ai-批量删除")
     @ApiOperation(value = "t_camera_ai-批量删除", notes = "t_camera_ai-批量删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:deleteBatch")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_ai:deleteBatch")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.cameraAiService.removeByIds(Arrays.asList(ids.split(",")));

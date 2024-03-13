@@ -65,7 +65,7 @@ public class CameraAlgoAssignController extends JeecgController<CameraAlgoAssign
      */
     @AutoLog(value = "t_camera_algo_assign-添加")
     @ApiOperation(value = "t_camera_algo_assign-添加", notes = "t_camera_algo_assign-添加")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:add")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:add")
     @PostMapping(value = "/add")
     public Result<String> add(@RequestBody CameraAlgoAssign cameraAlgoAssign) {
         cameraAlgoAssignService.save(cameraAlgoAssign);
@@ -80,7 +80,7 @@ public class CameraAlgoAssignController extends JeecgController<CameraAlgoAssign
      */
     @AutoLog(value = "t_camera_algo_assign-编辑")
     @ApiOperation(value = "t_camera_algo_assign-编辑", notes = "t_camera_algo_assign-编辑")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:edit")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:edit")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> edit(@RequestBody CameraAlgoAssign cameraAlgoAssign) {
         cameraAlgoAssignService.updateById(cameraAlgoAssign);
@@ -95,7 +95,7 @@ public class CameraAlgoAssignController extends JeecgController<CameraAlgoAssign
      */
     @AutoLog(value = "t_camera_algo_assign-通过id删除")
     @ApiOperation(value = "t_camera_algo_assign-通过id删除", notes = "t_camera_algo_assign-通过id删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:delete")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:delete")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         cameraAlgoAssignService.removeById(id);
@@ -110,7 +110,7 @@ public class CameraAlgoAssignController extends JeecgController<CameraAlgoAssign
      */
     @AutoLog(value = "t_camera_algo_assign-批量删除")
     @ApiOperation(value = "t_camera_algo_assign-批量删除", notes = "t_camera_algo_assign-批量删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:deleteBatch")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera_algo_assign:deleteBatch")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.cameraAlgoAssignService.removeByIds(Arrays.asList(ids.split(",")));

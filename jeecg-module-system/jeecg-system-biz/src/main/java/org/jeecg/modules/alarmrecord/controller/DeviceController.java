@@ -65,7 +65,7 @@ public class DeviceController extends JeecgController<Device, IDeviceService> {
      */
     @AutoLog(value = "t_device-添加")
     @ApiOperation(value = "t_device-添加", notes = "t_device-添加")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:add")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:add")
     @PostMapping(value = "/add")
     public Result<String> add(@RequestBody Device device) {
         deviceService.save(device);
@@ -80,7 +80,7 @@ public class DeviceController extends JeecgController<Device, IDeviceService> {
      */
     @AutoLog(value = "t_device-编辑")
     @ApiOperation(value = "t_device-编辑", notes = "t_device-编辑")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:edit")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:edit")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> edit(@RequestBody Device device) {
         deviceService.updateById(device);
@@ -95,7 +95,7 @@ public class DeviceController extends JeecgController<Device, IDeviceService> {
      */
     @AutoLog(value = "t_device-通过id删除")
     @ApiOperation(value = "t_device-通过id删除", notes = "t_device-通过id删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:delete")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:delete")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         deviceService.removeById(id);
@@ -110,7 +110,7 @@ public class DeviceController extends JeecgController<Device, IDeviceService> {
      */
     @AutoLog(value = "t_device-批量删除")
     @ApiOperation(value = "t_device-批量删除", notes = "t_device-批量删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:deleteBatch")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_device:deleteBatch")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.deviceService.removeByIds(Arrays.asList(ids.split(",")));

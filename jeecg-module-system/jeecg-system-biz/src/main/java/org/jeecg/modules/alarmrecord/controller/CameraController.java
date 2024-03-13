@@ -65,7 +65,7 @@ public class CameraController extends JeecgController<Camera, ICameraService> {
      */
     @AutoLog(value = "t_camera-添加")
     @ApiOperation(value = "t_camera-添加", notes = "t_camera-添加")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:add")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:add")
     @PostMapping(value = "/add")
     public Result<String> add(@RequestBody Camera camera) {
         cameraService.save(camera);
@@ -80,7 +80,7 @@ public class CameraController extends JeecgController<Camera, ICameraService> {
      */
     @AutoLog(value = "t_camera-编辑")
     @ApiOperation(value = "t_camera-编辑", notes = "t_camera-编辑")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:edit")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:edit")
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
     public Result<String> edit(@RequestBody Camera camera) {
         cameraService.updateById(camera);
@@ -95,7 +95,7 @@ public class CameraController extends JeecgController<Camera, ICameraService> {
      */
     @AutoLog(value = "t_camera-通过id删除")
     @ApiOperation(value = "t_camera-通过id删除", notes = "t_camera-通过id删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:delete")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:delete")
     @DeleteMapping(value = "/delete")
     public Result<String> delete(@RequestParam(name = "id", required = true) String id) {
         cameraService.removeById(id);
@@ -110,7 +110,7 @@ public class CameraController extends JeecgController<Camera, ICameraService> {
      */
     @AutoLog(value = "t_camera-批量删除")
     @ApiOperation(value = "t_camera-批量删除", notes = "t_camera-批量删除")
-    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:deleteBatch")
+//    @RequiresPermissions("org.jeecg.modules.alarmrecord:t_camera:deleteBatch")
     @DeleteMapping(value = "/deleteBatch")
     public Result<String> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.cameraService.removeByIds(Arrays.asList(ids.split(",")));
