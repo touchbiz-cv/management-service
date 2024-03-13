@@ -18,7 +18,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.TimeZone;
 
 /**
  * 微服务启动类（采用此类启动项目为微服务模式）
@@ -45,9 +44,6 @@ public class JeecgSystemCloudApplication extends SpringBootServletInitializer im
         String ip = InetAddress.getLocalHost().getHostAddress();
         String port = env.getProperty("server.port");
         String path = oConvertUtils.getString(env.getProperty("server.servlet.context-path"));
-        log.info("TimeZone={}",TimeZone.getDefault());
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
-        log.info("setDefault={}",TimeZone.getDefault());
         log.info("\n----------------------------------------------------------\n\t" +
                 "Application Jeecg-Boot is running! Access URLs:\n\t" +
                 "Local: \t\thttp://localhost:" + port + path + "/doc.html\n" +
