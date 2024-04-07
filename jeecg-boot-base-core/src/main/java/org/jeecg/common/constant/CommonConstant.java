@@ -574,5 +574,9 @@ public interface CommonConstant {
     */
    public static final String SAAS_MODE_TENANT = "tenant";
    //update-end---author:scott ---date::2023-09-10  for：积木报表常量----
- 
+
+    String CHAR_BIG_N = "N";
+
+    String CHAR_BIG_Y = "Y";
+
 }

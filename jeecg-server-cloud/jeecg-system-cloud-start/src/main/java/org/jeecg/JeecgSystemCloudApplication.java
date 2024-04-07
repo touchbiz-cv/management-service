@@ -19,6 +19,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 /**
  * 微服务启动类（采用此类启动项目为微服务模式）
  *  注意： 需要先初始化Nacos的数据库脚本，db/tables_nacos.sql
@@ -26,7 +27,9 @@ import java.net.UnknownHostException;
  * @date: 2022/4/21 10:55
  */
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(exclude={MongoAutoConfiguration.class},
+  scanBasePackages = "org.jeecg"
+)
 @EnableFeignClients(basePackages = {"org.jeecg"})
 @EnableScheduling
 public class JeecgSystemCloudApplication extends SpringBootServletInitializer implements CommandLineRunner {

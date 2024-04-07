@@ -639,7 +639,7 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 					DB_TYPE = DataBaseConstant.DB_TYPE_MYSQL;
 				}else if(dbType.indexOf(DataBaseConstant.DB_TYPE_ORACLE.toLowerCase())>=0) {
 					DB_TYPE = DataBaseConstant.DB_TYPE_ORACLE;
-				}else if(dbType.indexOf(DataBaseConstant.DB_TYPE_SQLSERVER.toLowerCase())>=0||dbType.indexOf(DataBaseConstant.DB_TYPE_SQL_SERVER_BLANK)>=0) {
+				}else if(dbType.indexOf(DataBaseConstant.DB_TYPE_SQLSERVER.toLowerCase())>=0) {
 					DB_TYPE = DataBaseConstant.DB_TYPE_SQLSERVER;
 				}else if(dbType.indexOf(DataBaseConstant.DB_TYPE_POSTGRESQL.toLowerCase())>=0) {
 					DB_TYPE = DataBaseConstant.DB_TYPE_POSTGRESQL;
