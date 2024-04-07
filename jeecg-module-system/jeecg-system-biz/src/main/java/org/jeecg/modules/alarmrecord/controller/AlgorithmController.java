@@ -32,6 +32,7 @@ import java.util.Arrays;
 @RequestMapping("/api/algorithm")
 @Slf4j
 public class AlgorithmController extends JeecgController<Algorithm, IAlgorithmService> {
+
     @Autowired
     private IAlgorithmService algorithmService;
 
