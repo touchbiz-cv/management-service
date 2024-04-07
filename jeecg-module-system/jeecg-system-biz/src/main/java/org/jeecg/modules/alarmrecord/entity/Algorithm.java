@@ -133,12 +133,7 @@ public class Algorithm implements Serializable {
     @Excel(name = "检测频率,间隔多少秒", width = 15)
     @ApiModelProperty(value = "检测频率,间隔多少秒")
     private Integer frequency;
-    /**
-     * 检测算法,该字段为true则保存到事件表，作为事件来看待
-     */
-    @Excel(name = "检测算法,该字段为true则保存到事件表，作为事件来看待", width = 15)
-    @ApiModelProperty(value = "检测算法,该字段为true则保存到事件表，作为事件来看待")
-    private String eventRecord;
+
     /**
      * 扩展数据，采用json格式
      */

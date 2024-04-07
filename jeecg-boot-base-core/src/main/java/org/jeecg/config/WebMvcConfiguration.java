@@ -24,11 +24,10 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsWebFilter;
+import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -47,6 +46,7 @@ import java.util.List;
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
+
     @Resource
     JeecgBaseConfig jeecgBaseConfig;
     @Value("${spring.resource.static-locations:}")
@@ -54,6 +54,18 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Autowired(required = false)
     private PrometheusMeterRegistry prometheusMeterRegistry;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+//                .allowedOrigins("*")
+                .allowedMethods(CorsConfiguration.ALL)
+                .allowedHeaders(CorsConfiguration.ALL)
+                .exposedHeaders(CorsConfiguration.ALL)
+                .allowedOriginPatterns("*")
+                .allowCredentials(true)
+                .maxAge(3600);
+    }
 
     /**
      * 静态资源的配置 - 使得可以从磁盘中读取 Html、图片、视频、音频等
@@ -78,21 +90,23 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addViewController("/").setViewName("doc.html");
     }
 
-    @Bean
+//    @Bean
     @Conditional(CorsFilterCondition.class)
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+    public CorsWebFilter corsFilter() {
         final CorsConfiguration corsConfiguration = new CorsConfiguration();
         //是否允许请求带有验证信息
         corsConfiguration.setAllowCredentials(true);
         // 允许访问的客户端域名
-        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedOriginPattern(CorsConfiguration.ALL);
         // 允许服务端访问的客户端请求头
-        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
         // 允许访问的方法名,GET POST等
-        corsConfiguration.addAllowedMethod("*");
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(urlBasedCorsConfigurationSource);
+        corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
+        corsConfiguration.addExposedHeader(CorsConfiguration.ALL);
+        var source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
+        source.registerCorsConfiguration("/**", corsConfiguration);
+
+        return new CorsWebFilter((CorsConfigurationSource) source);
     }
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -146,13 +160,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return () -> meterRegistryPostProcessor.postProcessAfterInitialization(prometheusMeterRegistry, "");
     }
 
-//    /**
-//     * 注册拦截器【拦截器拦截参数，自动切换数据源——后期实现多租户切换数据源功能】
-//     * @param registry
-//     */
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new DynamicDatasourceInterceptor()).addPathPatterns("/test/dynamic/**");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        //跨域拦截器需放在最上面
+//        registry.addInterceptor(corsInterceptor);
+
+    }
+
 
 }
