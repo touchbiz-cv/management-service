@@ -85,7 +85,7 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
         String imageUrl = request.getScheme() + "://" + request.getHeader("Host") + "/api/images/getImage?filename=";
         List<AlarmRecordDto> responseList = pageList.getRecords().stream().map(m -> {
                     try {
-                        AlarmRecordDto alarmRecordDto = AlarmRecordConverter.INSTANCE.transformOut(m);
+                        var alarmRecordDto = AlarmRecordConverter.INSTANCE.transformOut(m);
                         alarmRecordDto.setSceneName("");
                         Camera camera = cameraService.getById(m.getCameraId());
                         alarmRecordDto.setCameraName(ObjectUtils.isEmpty(camera) ? "" : camera.getCameraName());
@@ -102,8 +102,8 @@ public class AlarmRecordController extends JeecgController<AlarmRecord, IAlarmRe
                         throw new JeecgBootException(e);
                     }
                 }
-        ).collect(Collectors.toList());
-        IPage<AlarmRecordDto> responsePage = new Page<>(pageNo, pageSize);
+        ).toList();
+        var responsePage = new Page<AlarmRecordDto>(pageNo, pageSize);
         responsePage.setPages(pageList.getPages());
         responsePage.setTotal(pageList.getTotal());
         responsePage.setSize(pageList.getTotal());

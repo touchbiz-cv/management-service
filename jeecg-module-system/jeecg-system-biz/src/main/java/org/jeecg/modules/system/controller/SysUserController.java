@@ -780,52 +780,6 @@ public class SysUserController {
     }
 
     /**
-     * 根据 orgCode 查询用户，包括子部门下的用户
-     * 针对通讯录模块做的接口，将多个部门的用户合并成一条记录，并转成对前端友好的格式
-     */
-    @GetMapping("/queryByOrgCodeForAddressList")
-    public Result<?> queryByOrgCodeForAddressList(
-            @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-            @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
-            @RequestParam(name = "orgCode",required = false) String orgCode,
-            SysUser userParams
-    ) {
-        IPage page = new Page(pageNo, pageSize);
-        IPage<SysUserSysDepartModel> pageList = sysUserService.queryUserByOrgCode(orgCode, userParams, page);
-        List<SysUserSysDepartModel> list = pageList.getRecords();
-
-        // 记录所有出现过的 user, key = userId
-        Map<String, JSONObject> hasUser = new HashMap<>(list.size());
-
-        JSONArray resultJson = new JSONArray(list.size());
-
-        for (SysUserSysDepartModel item : list) {
-            String userId = item.getId();
-            // userId
-            JSONObject getModel = hasUser.get(userId);
-            // 之前已存在过该用户，直接合并数据
-            if (getModel != null) {
-                String departName = getModel.get("departName").toString();
-                getModel.put("departName", (departName + " | " + item.getDepartName()));
-            } else {
-                // 将用户对象转换为json格式，并将部门信息合并到 json 中
-                JSONObject json = JSON.parseObject(JSON.toJSONString(item));
-                json.remove("id");
-                json.put("userId", userId);
-                json.put("departId", item.getDepartId());
-                json.put("departName", item.getDepartName());
-//                json.put("avatar", item.getSysUser().getAvatar());
-                resultJson.add(json);
-                hasUser.put(userId, json);
-            }
-        }
-
-        IPage<JSONObject> result = new Page<>(pageNo, pageSize, pageList.getTotal());
-        result.setRecords(resultJson.toJavaList(JSONObject.class));
-        return Result.ok(result);
-    }
-
-    /**
      * 给指定部门添加对应的用户
      */
     @RequiresPermissions("system:user:editDepartWithUser")

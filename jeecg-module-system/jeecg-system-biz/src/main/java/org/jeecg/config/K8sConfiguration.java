@@ -32,7 +32,13 @@ public class K8sConfiguration {
          //打印集群信息
         log.info("ApiVersion:{}", client.getApiVersion());
         log.info("MasterUrl:{}", client.getMasterUrl());
-        log.info("VersionInfo:{}", JSONObject.toJSON(client.getKubernetesVersion()));
+        try
+        {
+            log.info("VersionInfo:{}", JSONObject.toJSON(client.getKubernetesVersion()));
+        }
+        catch(Exception err){
+
+        }
         return client;
     }
 

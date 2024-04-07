@@ -14,51 +14,6 @@ import java.util.function.Consumer;
  */
 public interface K8sApplication {
 
-    List<Pod> podList();
-
-    /**
-     * 根据容器name获取Pod
-     *
-     * @param name
-     * @return
-     */
-    Optional<Pod> getPodByName(String name);
-
-    boolean deletePod(String name);
-
-    boolean resetPod(String name);
-
-    /**
-     * 读取pod的最新n行日志
-     *
-     * @param namespace
-     * @param podName
-     * @param lines
-     * @return
-     */
-    String readLogByPod(String namespace, String podName, int lines);
-
-    /**
-     * 判断pod是否可以删除
-     *
-     * @param pod
-     * @return
-     */
-    boolean canDelete(Pod pod);
-
-    /**
-     * 判断pod是否可以升级
-     *
-     * @param pod
-     * @return
-     */
-    boolean canUpgrade(Pod pod);
-
-    /**
-     * @return
-     */
-    Consumer<PodVo> fillConsumer();
-
     /**
      * @param nodeName
      * @return
@@ -72,21 +27,4 @@ public interface K8sApplication {
      */
     String getUuidByDefaultNode();
 
-    /**
-     * 获取pod版本
-     *
-     * @param pod
-     * @return
-     */
-    PodVersion getVersion(Pod pod);
-
-    /**
-     * 对实例进行伸缩处理
-     *
-     * @param serviceName
-     * @param replicas
-     */
-    void flexble(String serviceName, int replicas);
-
-    Integer replicas(String serviceNam);
 }
