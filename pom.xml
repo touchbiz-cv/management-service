@@ -39,7 +39,7 @@
         <alibaba.nacos.version>2.0.4</alibaba.nacos.version>
 
         <xxl-job-core.version>2.2.0</xxl-job-core.version>
-        <fastjson.version>1.2.83</fastjson.version>
+        <fastjson.version>2.0.19</fastjson.version>
         <pegdown.version>1.6.0</pegdown.version>
         <knife4j-spring-boot-starter.version>3.0.3</knife4j-spring-boot-starter.version>
         <knife4j-spring-ui.version>2.0.9</knife4j-spring-ui.version>
@@ -49,8 +49,6 @@
         <sqljdbc4.version>4.0</sqljdbc4.version>
         <mysql-connector-java.version>8.0.27</mysql-connector-java.version>
         <hutool.version>5.8.23</hutool.version>
-        <!-- 国产数据库驱动 -->
-        <dm8.version>8.1.1.49</dm8.version>
 
         <!-- 持久层 -->
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
@@ -80,7 +78,7 @@
         <seata.version>1.5.2</seata.version>
 
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-
+        <inf-bom.version>2023.3.13.1</inf-bom.version>
     </properties>
 
     <modules>
@@ -121,9 +119,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.touchbiz</groupId>
+            <groupId>tech.touchbiz</groupId>
             <artifactId>common-utils</artifactId>
-            <version>2023.2.16.1</version>
+            <version>2023.3.3.1</version>
             <exclusions>
                 <exclusion>
                     <artifactId>java-jwt</artifactId>
@@ -175,6 +173,13 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>tech.touchbiz</groupId>
+                <artifactId>touchbiz-dependencies</artifactId>
+                <version>${inf-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!-- spring-cloud-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
